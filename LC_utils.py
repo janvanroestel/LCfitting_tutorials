@@ -2,7 +2,7 @@ import numpy as np
 import ellc
 import matplotlib.pyplot as plt
 
-def plot(pars,data,model,rescale=False,shift=False):
+def plot(pars,data,model,lnf=None,rescale=False,shift=False):
     
     # generate the model
     m = model(data[:,0],pars)
@@ -19,7 +19,10 @@ def plot(pars,data,model,rescale=False,shift=False):
         data[:,2] = data[:,2]/pars[0]
 
     # 
-    sigma = data[:,2]
+    if lnf is not None:
+        sigma = np.sqrt(data[:,2]**2+m**2*np.exp(2*lnf))
+    else:
+        sigma = data[:,2]
 
 
     # Three subplots sharing both x/y axes
